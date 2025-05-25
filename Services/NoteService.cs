@@ -42,14 +42,15 @@ public class NoteService(NoteContext context) : INoteService
     {
         var notes = await context.Notes
                             .Where(note =>
-                                    note.Tags.Any(t => t.Equals(tagName, StringComparison.OrdinalIgnoreCase))).ToListAsync();
+                                    note.Tags.Any(t => t.ToLower().Equals(tagName.ToLower()))).ToListAsync();
         return notes;
     }
 
     public async Task<List<Note>> GetAllNotesByTitle(string title)
     {
         var notes = await context.Notes
-                            .Where(note => note.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToListAsync();
+            .Where(note => note.Title.ToLower().Contains(title.ToLower()))
+            .ToListAsync();
         return notes;
     }
 
